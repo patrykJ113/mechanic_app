@@ -6,6 +6,9 @@ import NotFound from "./views/NotFound";
 import Signup from "./views/Signup";
 import Users from "./views/Users";
 import UserForm from "./views/UserForm";
+import Mechanics from "./views/Mechanics";
+import Orders from "./views/Orders";
+import Offers from "./views/Offers";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +30,18 @@ const router = createBrowserRouter([
       {
         path: '/users/:id',
         element: <UserForm key="userUpdate" />
+      },
+      {
+        path: '/mechanicy',
+        element: <Mechanics/>
+      },
+      {
+        path: '/oferty',
+        element: <Offers/>
+      },
+      {
+        path: '/zlecenia',
+        element: <Orders/>
       }
     ]
   },

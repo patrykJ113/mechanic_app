@@ -29,11 +29,11 @@ export default function DefaultLayout() {
 
   return (
     <div id="defaultLayout">
-      <aside>
-        <Link to="/users">Mechanicy</Link>
-        <Link to="/users">Oferty</Link>
-        <Link to="/users">Klijęci</Link>
-        <Link to="/users">Zlecenia</Link>
+      <aside>3
+        <Link to="/users">Users</Link>
+        <Link to="/mechanicy">Mechanicy</Link>
+        <Link to="/oferty">Oferty</Link>
+        <Link to="/zlecenia">Zlecenia</Link>
       </aside>
       <div className="content">
         <header>
