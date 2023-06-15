@@ -7,14 +7,13 @@ import TYPE_ENUM from '../enums/type.jsx';
 export default function DbDataTable({type}) {
   const [dbData, setDbData] = useState([]);
   const [tableHeaders, setTableHeaders] = useState([]);
-  const [tableData, setTableData] = useState();
   const [loading, setLoading] = useState(false);
   const {setNotification} = useStateContext()
 
   useEffect(() => {
     getDbData();
     handleTableHeaders(type)
-  }, [])
+  }, [type])
 
   const onDeleteClick = data => {
     if (!window.confirm(`Are you sure you want to delete this ${type}?`)) {
@@ -44,8 +43,12 @@ export default function DbDataTable({type}) {
       case TYPE_ENUM.MECHANICS:
         setTableHeaders(['Name', 'Last Name', 'NIP', 'Phone', 'Actions'])
         break;
-      case TYPE_ENUM.USERS:
-        setTableHeaders(['ID', 'Name', 'Email', 'Create Date', 'Actions'])
+      case TYPE_ENUM.ORDERS:
+        setTableHeaders(['Mechanik', 'zadanie', 'Data', 'Actions'])
+        break;
+      case TYPE_ENUM.OFFERS:
+        setTableHeaders(['Nazwa', 'Cena', 'Actions'])
+        break;
       default:
         setTableHeaders([])
     }
@@ -61,6 +64,23 @@ export default function DbDataTable({type}) {
             <td>{data.last_name}</td>
             <td>{data.nip}</td>
             <td>{data.phone}</td>
+          </>
+        )
+        break;
+      case TYPE_ENUM.ORDERS:
+        return (
+          <>
+            <td>{data.mechanic_id}</td>
+            <td>{data.offer_id}</td>
+            <td>{data.date}</td>
+          </>
+        )
+        break;
+      case TYPE_ENUM.OFFERS: 
+        return (
+          <>
+            <td>{data.offer_name}</td>
+            <td>{data.offer_price}</td>
           </>
         )
         break;
