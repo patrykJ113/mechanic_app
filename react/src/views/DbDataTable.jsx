@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {Link} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
-import TYPE_ENUM from '../enums/type.jsx';
+import TYPE from '../enums/type.jsx';
 
 export default function DbDataTable({type}) {
   const [dbData, setDbData] = useState([]);
@@ -40,13 +40,13 @@ export default function DbDataTable({type}) {
 
   const handleTableHeaders = type => {
     switch(type) {
-      case TYPE_ENUM.MECHANICS:
+      case TYPE.MECHANICS:
         setTableHeaders(['Name', 'Last Name', 'NIP', 'Phone', 'Actions'])
         break;
-      case TYPE_ENUM.ORDERS:
+      case TYPE.ORDERS:
         setTableHeaders(['Mechanik', 'zadanie', 'Data', 'Actions'])
         break;
-      case TYPE_ENUM.OFFERS:
+      case TYPE.OFFERS:
         setTableHeaders(['Nazwa', 'Cena', 'Actions'])
         break;
       default:
@@ -57,7 +57,7 @@ export default function DbDataTable({type}) {
 
   const handleTableData = ( type, data ) => {
     switch(type) {
-      case TYPE_ENUM.MECHANICS:
+      case TYPE.MECHANICS:
         return (
           <>
            <td>{data.name}</td>
@@ -67,7 +67,7 @@ export default function DbDataTable({type}) {
           </>
         )
         break;
-      case TYPE_ENUM.ORDERS:
+      case TYPE.ORDERS:
         return (
           <>
             <td>{data.mechanic_id}</td>
@@ -76,7 +76,7 @@ export default function DbDataTable({type}) {
           </>
         )
         break;
-      case TYPE_ENUM.OFFERS: 
+      case TYPE.OFFERS: 
         return (
           <>
             <td>{data.offer_name}</td>

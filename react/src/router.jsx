@@ -4,11 +4,11 @@ import GuestLayout from "./components/GuestLayout";
 import Login from "./views/Login";
 import NotFound from "./views/NotFound";
 import Signup from "./views/Signup";
+import DbDataTable from "./views/DbDataTable";
+import DbDataForm from "./views/DbDataForm";
 import Users from "./views/Users";
 import UserForm from "./views/UserForm";
-import Mechanics from "./views/Mechanics";
-import Orders from "./views/Orders";
-import Offers from "./views/Offers";
+import TYPE from './enums/type';
 
 const router = createBrowserRouter([
   {
@@ -17,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/users"/>
+        element: <Navigate to="/mechanicy"/>
       },
       {
         path: '/users',
@@ -33,15 +33,23 @@ const router = createBrowserRouter([
       },
       {
         path: '/mechanicy',
-        element: <Mechanics/>
+        element: <DbDataTable type={TYPE.MECHANICS}/>
+      },
+      {
+        path: 'mechanicy/:id',
+        element: <DbDataForm />
+      },
+      {
+        path: 'mechanicy/new',
+        element: <DbDataForm />
       },
       {
         path: '/oferty',
-        element: <Offers/>
+        element: <DbDataTable type={TYPE.OFFERS}/>
       },
       {
         path: '/zlecenia',
-        element: <Orders/>
+        element: <DbDataTable type={TYPE.ORDERS}/>
       }
     ]
   },

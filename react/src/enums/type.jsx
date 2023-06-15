@@ -1,7 +1,7 @@
-const TYPE_ENUM = {
+const TYPE = {
     MECHANICS: 'mechanics',
     OFFERS: 'offers',
     ORDERS: 'orders'
   }
 
-  export default TYPE_ENUM
+  export default TYPE
