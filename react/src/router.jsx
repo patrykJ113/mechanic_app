@@ -9,6 +9,7 @@ import DbDataForm from "./views/DbDataForm";
 import Users from "./views/Users";
 import UserForm from "./views/UserForm";
 import TYPE from './enums/type';
+import ACTIONS from './enums/actions';
 
 const router = createBrowserRouter([
   {
@@ -37,11 +38,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'mechanicy/:id',
-        element: <DbDataForm />
+        element: <DbDataForm key={ACTIONS.UPDATE} type={TYPE.MECHANICS}/>
       },
       {
         path: 'mechanicy/new',
-        element: <DbDataForm />
+        element: <DbDataForm key={ACTIONS.CREATE} type={TYPE.MECHANICS}/>
       },
       {
         path: '/oferty',
