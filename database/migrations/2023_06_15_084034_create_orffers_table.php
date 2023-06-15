@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('orffers', function (Blueprint $table) {
             $table->id();
+            $table->string('offer_name');
+            $table->float('offer_price', 5, 2);
             $table->timestamps();
         });
     }
