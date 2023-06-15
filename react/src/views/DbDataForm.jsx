@@ -2,8 +2,9 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../context/ContextProvider.jsx";
+import TYPE from "../enums/type.jsx";
 
-export default function UserForm() {
+export default function DbDataTable({type}) {
   const navigate = useNavigate();
   let {id} = useParams();
   const [user, setUser] = useState({
@@ -15,12 +16,17 @@ export default function UserForm() {
   })
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [plType, sePlType] = useState()
   const {setNotification} = useStateContext()
+  
+  useEffect(() => {
+    convertTypeToPolish(type)
+  }, [type])
 
   if (id) {
     useEffect(() => {
       setLoading(true)
-      axiosClient.get(`/users/${id}`)
+      axiosClient.get(`/${type}/${id}`)
         .then(({data}) => {
           setLoading(false)
           setUser(data)
@@ -34,10 +40,10 @@ export default function UserForm() {
   const onSubmit = ev => {
     ev.preventDefault()
     if (user.id) {
-      axiosClient.put(`/users/${user.id}`, user)
+      axiosClient.put(`/${type}/${user.id}`, user)
         .then(() => {
           setNotification('User was successfully updated')
-          navigate('/users')
+          navigate(`/${plType}`)
         })
         .catch(err => {
           const response = err.response;
@@ -46,10 +52,10 @@ export default function UserForm() {
           }
         })
     } else {
-      axiosClient.post('/users', user)
+      axiosClient.post(`/${type}`, user)
         .then(() => {
           setNotification('User was successfully created')
-          navigate('/users')
+          navigate(`/${plType}`)
         })
         .catch(err => {
           const response = err.response;
@@ -60,9 +66,26 @@ export default function UserForm() {
     }
   }
 
+  const convertTypeToPolish = type => {
+    switch(type) {
+        case TYPE.MECHANICS:
+            sePlType('mechanicy')
+        break;
+        case TYPE.OFFERS:
+            sePlType('oferty')
+        break;
+        case TYPE.ORDERS:
+            sePlType('zlecenia')
+        break;
+        default:
+            sePlType('')
+    }
+  }
+
   return (
     <>
-      {user.id && <h1>Update User: {user.name}</h1>}
+        <h1>Hell o o </h1>
+      {/* {user.id && <h1>Update User: {user.name}</h1>}
       {!user.id && <h1>New User</h1>}
       <div className="card animated fadeInDown">
         {loading && (
@@ -86,7 +109,7 @@ export default function UserForm() {
             <button className="btn">Save</button>
           </form>
         )}
-      </div>
+      </div> */}
     </>
   )
 }

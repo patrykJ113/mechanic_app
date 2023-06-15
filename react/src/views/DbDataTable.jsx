@@ -9,10 +9,12 @@ export default function DbDataTable({type}) {
   const [tableHeaders, setTableHeaders] = useState([]);
   const [loading, setLoading] = useState(false);
   const {setNotification} = useStateContext()
+  const [plType, sePlType] = useState()
 
   useEffect(() => {
     getDbData();
     handleTableHeaders(type)
+    convertTypeToPolish(type)
   }, [type])
 
   const onDeleteClick = data => {
@@ -89,6 +91,23 @@ export default function DbDataTable({type}) {
     }
   }
 
+  const convertTypeToPolish = type => {
+    switch(type) {
+        case TYPE.MECHANICS:
+            sePlType('mechanicy')
+        break;
+        case TYPE.OFFERS:
+            sePlType('oferty')
+        break;
+        case TYPE.ORDERS:
+            sePlType('zlecenia')
+        break;
+        default:
+            sePlType('')
+    }
+  }
+
+
   return (
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
@@ -119,7 +138,7 @@ export default function DbDataTable({type}) {
               <tr key={u.id}>
                 {handleTableData(type, u)}
                 <td>
-                  <Link className="btn-edit" to={`/${type}/` + u.id}>Edit</Link>
+                  <Link className="btn-edit" to={`/${plType}/` + u.id}>Edit</Link>
                   &nbsp;
                   <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</button>
                 </td>
