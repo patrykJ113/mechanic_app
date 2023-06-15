@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\MechanicController;
+use App\Http\Controllers\Api\OrderController;
+use App\Http\Controllers\Api\OrfferController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/users', UserController::class);
     Route::apiResource('/mechanics', MechanicController::class);
+    Route::apiResource('/orders', OrderController::class);
+    Route::apiResource('/offers', OrfferController::class);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
