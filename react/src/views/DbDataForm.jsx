@@ -7,21 +7,18 @@ import TYPE from "../enums/type.jsx";
 export default function DbDataTable({type}) {
   const navigate = useNavigate();
   let {id} = useParams();
-  const [user, setUser] = useState({
-    id: null,
-    name: '',
-    email: '',
-    password: '',
-    password_confirmation: ''
-  })
+
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
   const [plType, sePlType] = useState()
+  const [data, setData] = useState({
+    id: null,
+    name: '',
+    last_name: '',
+    phone: '',
+    nip: ''
+  })
   const {setNotification} = useStateContext()
-  
-  useEffect(() => {
-    convertTypeToPolish(type)
-  }, [type])
 
   if (id) {
     useEffect(() => {
@@ -29,18 +26,19 @@ export default function DbDataTable({type}) {
       axiosClient.get(`/${type}/${id}`)
         .then(({data}) => {
           setLoading(false)
-          setUser(data)
+          setData(data[0])
+          setDataBasedOnType(type)
         })
-        .catch(() => {
+        .catch(e => {
           setLoading(false)
         })
-    }, [])
-  }
+      }, [])
+    }
 
   const onSubmit = ev => {
     ev.preventDefault()
-    if (user.id) {
-      axiosClient.put(`/${type}/${user.id}`, user)
+    if (data.id) {
+      axiosClient.put(`/${type}/${data.id}`, data)
         .then(() => {
           setNotification('User was successfully updated')
           navigate(`/${plType}`)
@@ -52,7 +50,7 @@ export default function DbDataTable({type}) {
           }
         })
     } else {
-      axiosClient.post(`/${type}`, user)
+      axiosClient.post(`/${type}`, data)
         .then(() => {
           setNotification('User was successfully created')
           navigate(`/${plType}`)
@@ -66,7 +64,7 @@ export default function DbDataTable({type}) {
     }
   }
 
-  const convertTypeToPolish = type => {
+  const setDataBasedOnType = type => {
     switch(type) {
         case TYPE.MECHANICS:
             sePlType('mechanicy')
@@ -84,9 +82,8 @@ export default function DbDataTable({type}) {
 
   return (
     <>
-        <h1>Hell o o </h1>
-      {/* {user.id && <h1>Update User: {user.name}</h1>}
-      {!user.id && <h1>New User</h1>}
+      {data.id && <h1>Update User: {data.name}</h1>}
+      {!data.id && <h1>New User</h1>}
       <div className="card animated fadeInDown">
         {loading && (
           <div className="text-center">
@@ -102,14 +99,76 @@ export default function DbDataTable({type}) {
         }
         {!loading && (
           <form onSubmit={onSubmit}>
-            <input value={user.name} onChange={ev => setUser({...user, name: ev.target.value})} placeholder="Name"/>
-            <input value={user.email} onChange={ev => setUser({...user, email: ev.target.value})} placeholder="Email"/>
-            <input type="password" onChange={ev => setUser({...user, password: ev.target.value})} placeholder="Password"/>
-            <input type="password" onChange={ev => setUser({...user, password_confirmation: ev.target.value})} placeholder="Password Confirmation"/>
+            {
+              type === TYPE.MECHANICS ?
+              (
+                <>
+                  <input 
+                    value={data.name} 
+                    onChange={ev => setData({...data, name: ev.target.value})} 
+                    placeholder="Name"
+                  />
+                  <input 
+                    value={data.last_name} 
+                    onChange={ev => setData({...data, last_name: ev.target.value})} 
+                    placeholder="Last name"
+                  />
+                  <input 
+                    value={data.phone} 
+                    onChange={ev => setData({...data, phone: ev.target.value})} 
+                    placeholder="Phone"
+                  />
+                  <input 
+                    value={data.nip} 
+                    onChange={ev => setData({...data, nip: ev.target.value})} 
+                    placeholder="Nip"
+                  />
+                </>
+              ) : ''
+            }
+                        {
+              type === TYPE.OFFERS ?
+              (
+                <>
+                  <input 
+                    value={data.offer_name} 
+                    onChange={ev => setData({...data, offer_name: ev.target.value})} 
+                    placeholder="Offer name"
+                  />
+                  <input 
+                    value={data.offer_price} 
+                    onChange={ev => setData({...data, offer_price: ev.target.value})} 
+                    placeholder="Offer price"
+                  />
+                </>
+              ) : ''
+            }
+                        {
+              type === TYPE.ORDERS ?
+              (
+                <>
+                  <input 
+                    value={data.mechanic_id} 
+                    onChange={ev => setData({...data, mechanic_id: ev.target.value})} 
+                    placeholder="Mechanic id"
+                  />
+                  <input 
+                    value={data.offer_id} 
+                    onChange={ev => setData({...data, last_name: ev.target.value})} 
+                    placeholder="Offer id"
+                  />
+                  <input 
+                    value={data.date} 
+                    onChange={ev => setData({...data, date: ev.target.value})} 
+                    placeholder="Date"
+                  />
+                </>
+              ) : ''
+            }
             <button className="btn">Save</button>
           </form>
         )}
-      </div> */}
+      </div>
     </>
   )
 }

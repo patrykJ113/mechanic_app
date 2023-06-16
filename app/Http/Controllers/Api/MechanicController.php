@@ -38,7 +38,7 @@ class MechanicController extends Controller
      */
     public function show(Mechanic $mechanic)
     {
-        //
+        return Mechanic::find($mechanic);
     }
 
     /**
