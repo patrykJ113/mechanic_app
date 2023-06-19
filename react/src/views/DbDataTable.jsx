@@ -112,7 +112,7 @@ export default function DbDataTable({type}) {
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
         <h1>{type}</h1>
-        <Link className="btn-add" to={`/${type}/new`}>Add new</Link>
+        <Link className="btn-add" to={`/${plType}/new`}>Add new</Link>
       </div>
       <div className="card animated fadeInDown">
         <table>

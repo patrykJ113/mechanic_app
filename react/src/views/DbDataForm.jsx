@@ -20,6 +20,10 @@ export default function DbDataTable({type}) {
   })
   const {setNotification} = useStateContext()
 
+  useEffect(() => {
+    setDataBasedOnType(type)
+  },[type])
+
   if (id) {
     useEffect(() => {
       setLoading(true)
@@ -27,7 +31,6 @@ export default function DbDataTable({type}) {
         .then(({data}) => {
           setLoading(false)
           setData(data[0])
-          setDataBasedOnType(type)
         })
         .catch(e => {
           setLoading(false)

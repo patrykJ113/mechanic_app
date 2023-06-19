@@ -27,7 +27,16 @@ class MechanicController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'last_name' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+            'nip' => 'required'
+        ]);
+
+        $mechanic = Mechanic::create($data);
+
+        return response($data, 201);
     }
 
     /**
