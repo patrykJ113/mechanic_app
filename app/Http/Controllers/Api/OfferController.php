@@ -44,7 +44,7 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        //
+        return Offer::find($offer);
     }
 
     /**
@@ -56,7 +56,13 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
-        return Offer::find($offer);
+        $data = $request->validate([
+            'offer_name' => 'required',
+            'offer_price' => 'required'
+        ]);
+        $offer->update($data);
+
+        return $offer;
     }
 
     /**

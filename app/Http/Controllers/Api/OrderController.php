@@ -57,7 +57,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $data = $request->validate([
+            'mechanic_id' => 'required',
+            'offer_id' => 'required',
+            'date' => 'required'
+        ]);
+        $order->update($data);
+
+        return $order;
     }
 
     /**
