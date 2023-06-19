@@ -50,7 +50,15 @@ class MechanicController extends Controller
      */
     public function update(Request $request, Mechanic $mechanic)
     {
-        //
+        $data = $request->validate([
+            'last_name' => 'required',
+            'name' => 'required',
+            'phone' => 'required',
+            'nip' => 'required'
+        ]);
+        $mechanic->update($data);
+
+        return $mechanic;
     }
 
     /**
