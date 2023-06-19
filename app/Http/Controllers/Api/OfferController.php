@@ -56,7 +56,7 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
-        //
+        return Offer::find($offer);
     }
 
     /**
