@@ -10,4 +10,14 @@ class Order extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function mechanic()
+    {
+        return $this->belongsTo(Mechanic::class);
+    }
+
+    public function offer()
+    {
+        return $this->belongsTo(Offer::class);
+    }
 }
