@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Http\Resources\OrderResource;
 
 class OrderController extends Controller
 {
@@ -15,7 +16,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::all();
+        return OrderResource::collection(Order::all());
     }
 
     /**
@@ -45,7 +46,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return Order::find($order);
+        return new OrderResource($order);
     }
 
     /**

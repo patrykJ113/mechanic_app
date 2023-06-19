@@ -10,14 +10,21 @@ export default function DbDataTable({type}) {
 
   const [errors, setErrors] = useState(null)
   const [loading, setLoading] = useState(false)
+  const [mechanics, setMechanics] = useState([])
+  const [offers, setOffers] = useState([])
   const [plType, sePlType] = useState()
   const [data, setData] = useState({
     id: null,
-    name: '',
-    last_name: '',
-    phone: '',
-    nip: ''
+    mechanic_id: null,
+    offer_id: null,
+    mechanic: {
+      id: null
+    },
+    offer: {
+      id: null
+    }
   })
+
   const {setNotification} = useStateContext()
 
   useEffect(() => {
@@ -28,15 +35,42 @@ export default function DbDataTable({type}) {
     useEffect(() => {
       setLoading(true)
       axiosClient.get(`/${type}/${id}`)
+      .then(({data}) => {
+        setLoading(false)
+        type === TYPE.ORDERS ? setData(data.data) : setData(data[0])
+      })
+      .catch(e => {
+        setLoading(false)
+      })
+    }, [])
+  }
+    
+  if(TYPE.ORDERS) {
+    useEffect(() => {
+      setLoading(true)
+      axiosClient.get('/mechanics')
+      .then(({data}) => {
+        setMechanics(data)
+
+        axiosClient.get('/offers')
         .then(({data}) => {
-          setLoading(false)
-          setData(data[0])
-        })
-        .catch(e => {
+          setOffers(data)
           setLoading(false)
         })
-      }, [])
-    }
+        .catch( e => {
+          console.log(e)
+          setLoading(false)
+        })
+        
+      })
+      .catch( e => {
+        setLoading(false)
+        console.log(e)
+      })
+
+    },[])
+  }
+    
 
   const onSubmit = ev => {
     ev.preventDefault()
@@ -97,7 +131,7 @@ export default function DbDataTable({type}) {
           <div className="alert">
             {Object.keys(errors).map(key => (
               <p key={key}>{errors[key][0]}</p>
-            ))}
+              ))}
           </div>
         }
         {!loading && (
@@ -129,44 +163,51 @@ export default function DbDataTable({type}) {
                 </>
               ) : ''
             }
-                        {
+            {
               type === TYPE.OFFERS ?
               (
                 <>
                   <input 
-                    value={data.offer_name} 
-                    onChange={ev => setData({...data, offer_name: ev.target.value})} 
+                    value={data.name} 
+                    onChange={ev => setData({...data, name: ev.target.value})} 
                     placeholder="Offer name"
                   />
                   <input 
-                    value={data.offer_price} 
-                    onChange={ev => setData({...data, offer_price: ev.target.value})} 
+                    value={data.price} 
+                    onChange={ev => setData({...data, price: ev.target.value})} 
                     placeholder="Offer price"
                   />
+                         <h1>{data.name}</h1>
+                  <h1>{data.price}</h1>
+                  <h1>{JSON.stringify(data)}</h1>
                 </>
               ) : ''
             }
-                        {
-              type === TYPE.ORDERS ?
+            {
+              type === TYPE.ORDERS &&
               (
-                <>
-                  <input 
+                <>    
+                  <select 
                     value={data.mechanic_id} 
-                    onChange={ev => setData({...data, mechanic_id: ev.target.value})} 
-                    placeholder="Mechanic id"
-                  />
-                  <input 
+                    onChange={ev => setData({...data, mechanic_id: ev.target.value})}>
+                      {mechanics.map( mechanic => (
+                        <option value={mechanic.id}>{mechanic.name}</option>
+                      ))}
+                  </select>
+                  <select 
                     value={data.offer_id} 
-                    onChange={ev => setData({...data, offer_id: ev.target.value})} 
-                    placeholder="Offer id"
-                  />
+                    onChange={ev => setData({...data, offer_id: ev.target.value})}>
+                      {offers.map( offer => (
+                        <option value={offer.id}>{offer.name}</option>
+                      ))}
+                  </select>
                   <input 
+                    type="date"
                     value={data.date} 
                     onChange={ev => setData({...data, date: ev.target.value})} 
-                    placeholder="Date"
                   />
                 </>
-              ) : ''
+              )
             }
             <button className="btn">Save</button>
           </form>

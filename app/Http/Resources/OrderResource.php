@@ -17,8 +17,11 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'mechanic' => $this->mechanic,
+            'mechanic_id' => $this->mechanic_id,
             'offer' => $this->offer,
-            'date' => $this->date
+            'offer_id' => $this->offer_id,
+            'date' => $this->date,
+            'request' => $request
         ];
     }
 }
