@@ -27,8 +27,8 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'offer_name' => 'required',
-            'offer_price' => 'required'
+            'name' => 'required',
+            'price' => 'required'
         ]);
 
         $mechanic = Offer::create($data);
@@ -57,8 +57,8 @@ class OfferController extends Controller
     public function update(Request $request, Offer $offer)
     {
         $data = $request->validate([
-            'offer_name' => 'required',
-            'offer_price' => 'required'
+            'name' => 'required',
+            'price' => 'required'
         ]);
         $offer->update($data);
 
