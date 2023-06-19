@@ -29,7 +29,7 @@ export default function DefaultLayout() {
 
   return (
     <div id="defaultLayout">
-      <aside>3
+      <aside>
         <Link to="/users">Users</Link>
         <Link to="/mechanicy">Mechanicy</Link>
         <Link to="/oferty">Oferty</Link>
