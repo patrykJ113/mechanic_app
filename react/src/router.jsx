@@ -49,9 +49,25 @@ const router = createBrowserRouter([
         element: <DbDataTable type={TYPE.OFFERS}/>
       },
       {
+        path: 'oferty/:id',
+        element: <DbDataForm key={ACTIONS.UPDATE} type={TYPE.OFFERS}/>
+      },
+      {
+        path: 'oferty/new',
+        element: <DbDataForm key={ACTIONS.CREATE} type={TYPE.OFFERS}/>
+      },
+      {
         path: '/zlecenia',
         element: <DbDataTable type={TYPE.ORDERS}/>
-      }
+      },
+      {
+        path: 'zlecenia/:id',
+        element: <DbDataForm key={ACTIONS.UPDATE} type={TYPE.ORDERS}/>
+      },
+      {
+        path: 'zlecenia/new',
+        element: <DbDataForm key={ACTIONS.CREATE} type={TYPE.ORDERS}/>
+      },
     ]
   },
   {
