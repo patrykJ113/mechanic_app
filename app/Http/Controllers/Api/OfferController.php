@@ -26,7 +26,14 @@ class OfferController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'offer_name' => 'required',
+            'offer_price' => 'required'
+        ]);
+
+        $mechanic = Offer::create($data);
+
+        return response($data, 201);
     }
 
     /**

@@ -26,7 +26,15 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'mechanic_id' => 'required',
+            'offer_id' => 'required',
+            'date' => 'required'
+        ]);
+
+        $mechanic = Order::create($data);
+
+        return response($data, 201);
     }
 
     /**
