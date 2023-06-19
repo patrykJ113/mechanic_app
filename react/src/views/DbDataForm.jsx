@@ -52,8 +52,8 @@ export default function DbDataTable({type}) {
             setErrors(response.data.errors)
           }
         })
-    } else {
-      axiosClient.post(`/${type}`, data)
+      } else {
+        axiosClient.post(`/${type}`, data)
         .then(() => {
           setNotification('User was successfully created')
           navigate(`/${plType}`)
@@ -157,7 +157,7 @@ export default function DbDataTable({type}) {
                   />
                   <input 
                     value={data.offer_id} 
-                    onChange={ev => setData({...data, last_name: ev.target.value})} 
+                    onChange={ev => setData({...data, offer_id: ev.target.value})} 
                     placeholder="Offer id"
                   />
                   <input 
