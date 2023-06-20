@@ -32,8 +32,8 @@ export default function DbDataTable({type}) {
     setLoading(true)
     axiosClient.get(`/${type}`)
       .then(({ data }) => {
-        setLoading(false)
         type === TYPE.ORDERS ? setDbData(data.data) : setDbData(data)
+        setLoading(false)
       })
       .catch(() => {
         setLoading(false)
@@ -62,7 +62,7 @@ export default function DbDataTable({type}) {
       case TYPE.MECHANICS:
         return (
           <>
-           <td>{data.name}</td>
+            <td>{data.name}</td>
             <td>{data.last_name}</td>
             <td>{data.nip}</td>
             <td>{data.phone}</td>
@@ -72,8 +72,8 @@ export default function DbDataTable({type}) {
       case TYPE.ORDERS:
         return (
           <>
-            <td>{data.mechanic.name}</td>
-            <td>{data.offer.name}</td>
+            <td>{data.mechanic?.name}</td>
+            <td>{data.offer?.name}</td>
             <td>{data.date}</td>
           </>
         )

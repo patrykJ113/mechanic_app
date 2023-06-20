@@ -45,7 +45,7 @@ export default function DbDataTable({type}) {
     }, [])
   }
     
-  if(TYPE.ORDERS) {
+  if(type === TYPE.ORDERS) {
     useEffect(() => {
       setLoading(true)
       axiosClient.get('/mechanics')
@@ -68,7 +68,7 @@ export default function DbDataTable({type}) {
         console.log(e)
       })
 
-    },[])
+    },[type])
   }
     
 
@@ -177,9 +177,6 @@ export default function DbDataTable({type}) {
                     onChange={ev => setData({...data, price: ev.target.value})} 
                     placeholder="Offer price"
                   />
-                         <h1>{data.name}</h1>
-                  <h1>{data.price}</h1>
-                  <h1>{JSON.stringify(data)}</h1>
                 </>
               ) : ''
             }
