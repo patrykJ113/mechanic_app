@@ -2,6 +2,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {useStateContext} from "../context/ContextProvider.jsx";
+import confirmationMsg from '../utils/confirmationMsg.jsx'
 import TYPE from "../enums/type.jsx";
 
 export default function DbDataTable({type}) {
@@ -77,7 +78,7 @@ export default function DbDataTable({type}) {
     if (data.id) {
       axiosClient.put(`/${type}/${data.id}`, data)
         .then(() => {
-          setNotification('User was successfully updated')
+          setNotification(confirmationMsg(type, data).update)
           navigate(`/${plType}`)
         })
         .catch(err => {
@@ -89,7 +90,7 @@ export default function DbDataTable({type}) {
       } else {
         axiosClient.post(`/${type}`, data)
         .then(() => {
-          setNotification('User was successfully created')
+          setNotification(confirmationMsg(type, data).create)
           navigate(`/${plType}`)
         })
         .catch(err => {
@@ -119,8 +120,8 @@ export default function DbDataTable({type}) {
 
   return (
     <>
-      {data.id && <h1>Update User: {data.name}</h1>}
-      {!data.id && <h1>New User</h1>}
+      {data.id && <h1>Zaktualizuj: {data.name}</h1>}
+      {!data.id && <h1>Nowy {type === TYPE.MECHANICS ? 'Mechanik' : type === TYPE.OFFERS ? 'Oferta': 'Zlecenie'}</h1>}
       <div className="card animated fadeInDown">
         {loading && (
           <div className="text-center">
@@ -143,17 +144,17 @@ export default function DbDataTable({type}) {
                   <input 
                     value={data.name} 
                     onChange={ev => setData({...data, name: ev.target.value})} 
-                    placeholder="Name"
+                    placeholder="Imie"
                   />
                   <input 
                     value={data.last_name} 
                     onChange={ev => setData({...data, last_name: ev.target.value})} 
-                    placeholder="Last name"
+                    placeholder="Nazwisko"
                   />
                   <input 
                     value={data.phone} 
                     onChange={ev => setData({...data, phone: ev.target.value})} 
-                    placeholder="Phone"
+                    placeholder="Telefon"
                   />
                   <input 
                     value={data.nip} 
@@ -170,12 +171,12 @@ export default function DbDataTable({type}) {
                   <input 
                     value={data.name} 
                     onChange={ev => setData({...data, name: ev.target.value})} 
-                    placeholder="Offer name"
+                    placeholder="Nazwa"
                   />
                   <input 
                     value={data.price} 
                     onChange={ev => setData({...data, price: ev.target.value})} 
-                    placeholder="Offer price"
+                    placeholder="Cena"
                   />
                 </>
               ) : ''
@@ -199,14 +200,14 @@ export default function DbDataTable({type}) {
                       ))}
                   </select>
                   <input 
-                    type="date"
+                    type="data"
                     value={data.date} 
                     onChange={ev => setData({...data, date: ev.target.value})} 
                   />
                 </>
               )
             }
-            <button className="btn">Save</button>
+            <button className="btn">Zapisz</button>
           </form>
         )}
       </div>

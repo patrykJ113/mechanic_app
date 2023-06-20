@@ -2,6 +2,7 @@ import {useEffect, useState} from "react";
 import axiosClient from "../axios-client.js";
 import {Link} from "react-router-dom";
 import {useStateContext} from "../context/ContextProvider.jsx";
+import confirmationMsg from '../utils/confirmationMsg.jsx'
 import TYPE from '../enums/type.jsx';
 
 export default function DbDataTable({type}) {
@@ -18,12 +19,12 @@ export default function DbDataTable({type}) {
   }, [type])
 
   const onDeleteClick = data => {
-    if (!window.confirm(`Are you sure you want to delete this ${type}?`)) {
+    if (!window.confirm(confirmationMsg(type, data).beforeDelete)) {
       return
     }
     axiosClient.delete(`/${type}/${data.id}`)
       .then(() => {
-        setNotification(`${type.substr(0, type.lastIndexOf('s'))} was successfully deleted`)
+        setNotification(confirmationMsg(type, data).delete)
         getDbData()
       })
   }
@@ -43,13 +44,13 @@ export default function DbDataTable({type}) {
   const handleTableHeaders = type => {
     switch(type) {
       case TYPE.MECHANICS:
-        setTableHeaders(['Name', 'Last Name', 'NIP', 'Phone', 'Actions'])
+        setTableHeaders(['Imie', 'Nazwisko', 'NIP', 'Telefon', 'Akcje'])
         break;
       case TYPE.ORDERS:
-        setTableHeaders(['Mechanik', 'zadanie', 'Data', 'Actions'])
+        setTableHeaders(['Nr. Zlecenia','Mechanik', 'zadanie', 'Data', 'Akcje'])
         break;
       case TYPE.OFFERS:
-        setTableHeaders(['Nazwa', 'Cena', 'Actions'])
+        setTableHeaders(['Nazwa', 'Cena', 'Akcje'])
         break;
       default:
         setTableHeaders([])
@@ -72,6 +73,7 @@ export default function DbDataTable({type}) {
       case TYPE.ORDERS:
         return (
           <>
+            <td>{data.id}</td>
             <td>{data.mechanic?.name}</td>
             <td>{data.offer?.name}</td>
             <td>{data.date}</td>
@@ -111,8 +113,8 @@ export default function DbDataTable({type}) {
   return (
     <div>
       <div style={{display: 'flex', justifyContent: "space-between", alignItems: "center"}}>
-        <h1>{type}</h1>
-        <Link className="btn-add" to={`/${plType}/new`}>Add new</Link>
+        <h1>{plType}</h1>
+        <Link className="btn-add" to={`/${plType}/new`}>Dodaj nowy</Link>
       </div>
       <div className="card animated fadeInDown">
         <table>
@@ -127,7 +129,7 @@ export default function DbDataTable({type}) {
             <tbody>
             <tr>
               <td colSpan="5" className="text-center">
-                Loading...
+                ładuję...
               </td>
             </tr>
             </tbody>
@@ -138,9 +140,9 @@ export default function DbDataTable({type}) {
               <tr key={u.id}>
                 {handleTableData(type, u)}
                 <td>
-                  <Link className="btn-edit" to={`/${plType}/` + u.id}>Edit</Link>
+                  <Link className="btn-edit" to={`/${plType}/` + u.id}>Edytuj</Link>
                   &nbsp;
-                  <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Delete</button>
+                  <button className="btn-delete" onClick={ev => onDeleteClick(u)}>Usuń</button>
                 </td>
               </tr>
             ))}

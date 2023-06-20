@@ -1,6 +1,7 @@
 const ACTIONS = {
     CREATE: 'create',
-    UPDATE: 'update'
+    UPDATE: 'update',
+    DELETE: 'delete'
   }
 
   export default ACTIONS
