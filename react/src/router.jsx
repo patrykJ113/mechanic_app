@@ -21,18 +21,6 @@ const router = createBrowserRouter([
         element: <Navigate to="/mechanicy"/>
       },
       {
-        path: '/users',
-        element: <Users/>
-      },
-      {
-        path: '/users/new',
-        element: <UserForm key="userCreate" />
-      },
-      {
-        path: '/users/:id',
-        element: <UserForm key="userUpdate" />
-      },
-      {
         path: '/mechanicy',
         element: <DbDataTable type={TYPE.MECHANICS}/>
       },
