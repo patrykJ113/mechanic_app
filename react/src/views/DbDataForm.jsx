@@ -57,6 +57,10 @@ export default function DbDataTable({type}) {
         .then(({data}) => {
           setOffers(data)
           setLoading(false)
+
+          if (!id) {
+            setData({...data, mechanic_id: mechanics[0].id, offer_id: offers[0].id})
+          }
         })
         .catch( e => {
           console.log(e)
@@ -184,7 +188,7 @@ export default function DbDataTable({type}) {
             {
               type === TYPE.ORDERS &&
               (
-                <>    
+                <>
                   <select 
                     value={data.mechanic_id} 
                     onChange={ev => setData({...data, mechanic_id: ev.target.value})}>
@@ -200,7 +204,7 @@ export default function DbDataTable({type}) {
                       ))}
                   </select>
                   <input 
-                    type="data"
+                    type="date"
                     value={data.date} 
                     onChange={ev => setData({...data, date: ev.target.value})} 
                   />
