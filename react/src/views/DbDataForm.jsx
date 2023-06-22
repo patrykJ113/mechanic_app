@@ -59,7 +59,7 @@ export default function DbDataTable({type}) {
           setLoading(false)
 
           if (!id) {
-            setData({...data, mechanic_id: mechanics[0].id, offer_id: offers[0].id})
+            setData({...data, mechanic_id: mechanics[0]?.id, offer_id: offers[0]?.id})
           }
         })
         .catch( e => {
