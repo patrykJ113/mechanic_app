@@ -49,7 +49,7 @@ export default function Signup() {
           <input ref={emailRef} type="email" placeholder="Email"/>
           <input ref={passwordRef} type="password" placeholder="Hasło"/>
           <input ref={passwordConfirmationRef} type="password" placeholder="Powtórz hasło"/>
-          <button className="btn btn-block"></button>
+          <button className="btn btn-block">Zarejestrój się</button>
           <p className="message">Masz już konto? <Link to="/login">Zaloguj się</Link></p>
         </form>
       </div>
