@@ -5,7 +5,7 @@ import {useStateContext} from "../context/ContextProvider.jsx";
 import confirmationMsg from '../utils/confirmationMsg.jsx'
 import TYPE from "../enums/type.jsx";
 
-export default function DbDataTable({type}) {
+export default function DbDataForm({type}) {
   const navigate = useNavigate();
   let {id} = useParams();
 
@@ -50,16 +50,16 @@ export default function DbDataTable({type}) {
     useEffect(() => {
       setLoading(true)
       axiosClient.get('/mechanics')
-      .then(({data}) => {
-        setMechanics(data)
+      .then(({data: m}) => {
+        setMechanics(m)
 
         axiosClient.get('/offers')
-        .then(({data}) => {
-          setOffers(data)
+        .then(({data: o}) => {
+          setOffers(o)
           setLoading(false)
 
           if (!id) {
-            setData({...data, mechanic_id: mechanics[0]?.id, offer_id: offers[0]?.id})
+            setData({...data, offer_id: o[0]?.id, mechanic_id: m[0]?.id})
           }
         })
         .catch( e => {
