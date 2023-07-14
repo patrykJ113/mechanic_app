@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('mechanic_id');
             $table->foreignId('offer_id');
+            $table->foreignId('user_id');
             $table->date('date');
             $table->timestamps();
         });
