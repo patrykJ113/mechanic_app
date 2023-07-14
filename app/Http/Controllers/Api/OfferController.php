@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller
 {
@@ -15,7 +16,10 @@ class OfferController extends Controller
      */
     public function index()
     {
-        return Offer::all();
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        return Offer::where('user_id', $user->id)->get();;
     }
 
     /**
@@ -31,7 +35,13 @@ class OfferController extends Controller
             'price' => 'required'
         ]);
 
-        $mechanic = Offer::create($data);
+        
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $data['user_id'] = $user->id;
+
+        $offer = Offer::create($data);
 
         return response($data, 201);
     }
@@ -44,7 +54,10 @@ class OfferController extends Controller
      */
     public function show(Offer $offer)
     {
-        return Offer::find($offer);
+         /** @var \App\Models\User $user */
+         $user = Auth::user();
+
+        return Offer::where('user_id', $user->id)->where('id', $offer->id)->get();
     }
 
     /**

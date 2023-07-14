@@ -38,7 +38,7 @@ export default function DbDataForm({type}) {
       axiosClient.get(`/${type}/${id}`)
       .then(({data}) => {
         setLoading(false)
-        type === TYPE.ORDERS ? setData(data.data) : setData(data[0])
+        type === TYPE.ORDERS ? setData(data.data[0]) : setData(data[0])
       })
       .catch(e => {
         setLoading(false)

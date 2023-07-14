@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Mechanic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 
 class MechanicController extends Controller
@@ -16,7 +17,11 @@ class MechanicController extends Controller
      */
     public function index()
     {
-        return Mechanic::all();
+        
+          /** @var \App\Models\User $user */
+          $user = Auth::user();
+
+        return Mechanic::where('user_id', $user->id)->get();
     }
 
     /**
@@ -34,8 +39,12 @@ class MechanicController extends Controller
             'nip' => 'required'
         ]);
 
-        $mechanic = Mechanic::create($data);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
+        $data['user_id'] = $user->id;
+
+        $mechanic = Mechanic::create($data);
         return response($data, 201);
     }
 
@@ -47,7 +56,10 @@ class MechanicController extends Controller
      */
     public function show(Mechanic $mechanic)
     {
-        return Mechanic::find($mechanic);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        return Mechanic::where('user_id', $user->id)->where('id', $mechanic->id)->get();
     }
 
     /**

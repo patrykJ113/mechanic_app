@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Http\Resources\OrderResource;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -16,7 +17,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return OrderResource::collection(Order::all());
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        return OrderResource::collection(Order::where('user_id', $user->id)->get());
     }
 
     /**
@@ -33,7 +37,13 @@ class OrderController extends Controller
             'date' => 'required'
         ]);
 
-        $mechanic = Order::create($data);
+        
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $data['user_id'] = $user->id;
+
+        $order = Order::create($data);
 
         return response($data, 201);
     }
@@ -46,7 +56,9 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return new OrderResource($order);
+         /** @var \App\Models\User $user */
+         $user = Auth::user();
+        return OrderResource::collection(Order::where('user_id', $user->id)->where('id', $order->id)->get());
     }
 
     /**
